@@ -1,0 +1,7 @@
+/app/build
+/app/.cxx
+/.idea
+/.gradle
+/app/src/main/jni/thirdparties/ncnn-*-android-*
+/app/src/main/jni/thirdparties/opencv-mobile-*
+/.vscode
