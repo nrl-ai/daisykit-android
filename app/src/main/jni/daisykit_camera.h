@@ -15,12 +15,12 @@
 
 #include "thirdparties/ndkcamera/ndkcamera.h"
 
-#include "daisykitsdk/common/types.h"
-#include "daisykitsdk/ai_models/body_detector.h"
-#include "daisykitsdk/ai_models/pose_detector.h"
-#include "daisykitsdk/ai_models/action_classifier.h"
-#include "daisykitsdk/analyzers/pushup_analyzer.h"
-#include "daisykitsdk/visualizer/viz_utils.h"
+#include <daisykitsdk/common/types.h>
+#include <daisykitsdk/models/body_detector.h>
+#include <daisykitsdk/models/pose_detector.h>
+#include <daisykitsdk/models/action_classifier.h>
+#include <daisykitsdk/examples/pushups/pushup_analyzer.h>
+#include <daisykitsdk/utils/visualizer/viz_utils.h>
 
 static int draw_unsupported(cv::Mat& rgb) {
   const char text[] = "unsupported";
