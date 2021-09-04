@@ -1,0 +1,14 @@
+{
+  "person_detection_model": {
+    "model": "models/person_detector.param",
+    "weights": "models/person_detector.bin"
+  },
+  "human_pose_model": {
+    "model": "models/Ultralight-Nano-SimplePose.param",
+    "weights": "models/Ultralight-Nano-SimplePose.bin"
+  },
+  "action_recognition_model": {
+    "model": "models/action_classifier.param",
+    "weights": "models/action_classifier.bin"
+  }
+}

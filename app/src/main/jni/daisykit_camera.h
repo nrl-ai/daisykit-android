@@ -2,25 +2,22 @@
 
 #include <stdio.h>
 #include <algorithm>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include <android/asset_manager_jni.h>
+#include <android/log.h>
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
-#include <android/log.h>
 #include <jni.h>
 
 #include <opencv2/opencv.hpp>
 
+#include "asset_mgr_utils.h"
 #include "thirdparties/ndkcamera/ndkcamera.h"
 
 #include <daisykitsdk/common/types.h>
-#include <daisykitsdk/models/body_detector.h>
-#include <daisykitsdk/models/pose_detector.h>
-#include <daisykitsdk/models/action_classifier.h>
-#include <daisykitsdk/examples/pushups/pushup_analyzer.h>
-#include <daisykitsdk/utils/visualizer/viz_utils.h>
+#include <daisykitsdk/flows/pushup_counter_flow.h>
 
 static int draw_unsupported(cv::Mat& rgb) {
   const char text[] = "unsupported";

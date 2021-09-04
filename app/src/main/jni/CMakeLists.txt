@@ -9,5 +9,5 @@ include_directories(. daisykitsdk/include/)
 
 add_subdirectory(daisykitsdk)
 
-add_library(daisykit_camera_lib SHARED daisykit_camera.cpp thirdparties/ndkcamera/ndkcamera.cpp)
+add_library(daisykit_camera_lib SHARED daisykit_camera.cpp thirdparties/ndkcamera/ndkcamera.cpp asset_mgr_utils.cpp)
 target_link_libraries(daisykit_camera_lib ${OpenCV_LIBS} camera2ndk mediandk daisykitsdk)
