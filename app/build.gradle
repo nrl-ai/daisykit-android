@@ -7,15 +7,24 @@ android {
     defaultConfig {
         applicationId "com.vnopenai.daisykitapp"
         archivesBaseName = "$applicationId"
-
         minSdkVersion 24
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11 -frtti -fno-exceptions"
+                arguments "-DANDROID_STL=c++_static",
+                        "-DANDROID_CPP_FEATURES=rtti exceptions"
+            }
+        }
     }
 
     externalNativeBuild {
+
         cmake {
             version "3.10.2"
             path file('src/main/jni/CMakeLists.txt')
         }
+
     }
 
     dependencies {

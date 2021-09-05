@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DaisyKit</string>
-    <string-array name="model_array">
-        <item>DaisyKit-Dev</item>
+    <string-array name="demo_app_array">
+        <item>PushUp Counter</item>
+        <item>Barcode Scanner</item>
     </string-array>
     <string-array name="cpugpu_array">
         <item>CPU</item>

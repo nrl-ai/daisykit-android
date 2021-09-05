@@ -2,10 +2,18 @@ project(daisykitlib)
 
 cmake_minimum_required(VERSION 3.10)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_EXTENSIONS ON)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fexceptions -frtti")
+
 set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/thirdparties/opencv-mobile-4.5.3-android/sdk/native/jni)
 find_package(OpenCV REQUIRED core imgproc)
 
-include_directories(. daisykitsdk/include/)
+include_directories(.
+        daisykitsdk/include/
+        daisykitsdk/src/thirdparties/zxing-cpp/core/src
+        daisykitsdk/src/thirdparties/zxing-cpp/opencv/src
+        )
 
 add_subdirectory(daisykitsdk)
 

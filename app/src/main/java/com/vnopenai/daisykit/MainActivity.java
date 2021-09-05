@@ -25,9 +25,9 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
     private DaisykitCamera daisykitcam = new DaisykitCamera();
     private int facing = 0;
 
-    private Spinner spinnerModel;
+    private Spinner spinnerDemoApp;
     private Spinner spinnerCPUGPU;
-    private int current_model = 0;
+    private int current_demo_app = 0;
     private int current_cpugpu = 0;
 
     private SurfaceView cameraView;
@@ -61,14 +61,14 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
             }
         });
 
-        spinnerModel = (Spinner) findViewById(R.id.spinnerModel);
-        spinnerModel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerDemoApp = (Spinner) findViewById(R.id.spinnerDemoApp);
+        spinnerDemoApp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id)
             {
-                if (position != current_model)
+                if (position != current_demo_app)
                 {
-                    current_model = position;
+                    current_demo_app = position;
                     reload();
                 }
             }
@@ -102,7 +102,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
 
     private void reload()
     {
-        boolean ret_init = daisykitcam.loadModel(getAssets(), current_model, current_cpugpu);
+        boolean ret_init = daisykitcam.loadDemo(getAssets(), current_demo_app, current_cpugpu);
         if (!ret_init)
         {
             Log.e("MainActivity", "daisykitcam loadModel failed");
@@ -145,4 +145,5 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
 
         daisykitcam.closeCamera();
     }
+
 }
