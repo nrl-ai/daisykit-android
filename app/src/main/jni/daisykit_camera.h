@@ -18,6 +18,7 @@
 #include "thirdparties/ndkcamera/ndkcamera.h"
 
 #include <daisykitsdk/common/types.h>
+#include <daisykitsdk/flows/face_detector_flow.h>
 #include <daisykitsdk/flows/pushup_counter_flow.h>
 #include <daisykitsdk/flows/barcode_scanner_flow.h>
 
