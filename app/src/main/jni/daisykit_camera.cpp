@@ -4,6 +4,7 @@ ncnn::Mutex g_lock;
 static DemoApp current_demo = DemoApp::kDemoPushUpCounter;
 static daisykit::flows::PushupCounterFlow* pushup_flow;
 static daisykit::flows::FaceDetectorFlow* face_flow;
+static daisykit::flows::FaceDetectorWithMaskFlow* face_mask_flow;
 static daisykit::flows::BarcodeScannerFlow* barcode_flow;
 
 class DaisykitCam : public NdkCameraWindow {
@@ -24,6 +25,11 @@ void DaisykitCam::on_image_render(cv::Mat& rgb) const {
         if (!face_flow) return;
             face_flow->Process(rgb);
             face_flow->DrawResult(rgb);
+            break;
+      case DemoApp::kDemoFaceDetectorWithMask:
+        if (!face_mask_flow) return;
+            face_mask_flow->Process(rgb);
+            face_mask_flow->DrawResult(rgb);
             break;
       case DemoApp::kDemoBarcodeReader:
         if (!barcode_flow) return;
@@ -54,6 +60,8 @@ JNIEXPORT void JNI_OnUnload(JavaVM* vm, void* reserved) {
     pushup_flow = nullptr;
     delete face_flow;
     face_flow = nullptr;
+    delete face_mask_flow;
+    face_mask_flow = nullptr;
     delete barcode_flow;
     barcode_flow = nullptr;
   }
@@ -81,6 +89,11 @@ JNIEXPORT jboolean JNICALL Java_com_vnopenai_daisykit_DaisykitCamera_loadDemo(
         config =
             read_file_from_assets(mgr, "configs/face_detector_config.json");
         face_flow = new daisykit::flows::FaceDetectorFlow(mgr, config);
+        break;
+      case DemoApp::kDemoFaceDetectorWithMask:
+        config =
+            read_file_from_assets(mgr, "configs/face_detector_with_mask_config.json");
+        face_mask_flow = new daisykit::flows::FaceDetectorWithMaskFlow(mgr, config);
         break;
       case DemoApp::kDemoBarcodeReader:
         config =

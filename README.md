@@ -15,7 +15,11 @@ https://github.com/nihui/opencv-mobile
 * Download opencv-mobile-XYZ-android.zip
 * Extract opencv-mobile-XYZ-android.zip into **app/src/main/jni** and change the **OpenCV_DIR** path to yours in **app/src/main/jni/CMakeLists.txt**
 
-### Step3
+### Step 3: Download assets
+
+* Download `configs` and `models` folders [here](https://drive.google.com/drive/folders/1ZAM8W4hHkV7-zmfHFjIGLAuso3QajUfW) and put into `app/src/main/assets`.
+
+### Step 4: Build
 
 * Open this project with Android Studio, build it and enjoy!
 
@@ -26,3 +30,17 @@ https://github.com/nihui/opencv-mobile
 * All models are manually modified to accept dynamic input shape
 * Most small models run slower on GPU than on CPU, this is common
 * FPS may be lower in dark environment because of longer camera exposure time
+
+## Errors and Fixes
+
+### 1. Errors because of build tool version
+
+```
+No toolchains found in the NDK toolchains folder for ABI with prefix: arm-linux-androideabi
+```
+
+```
+clang ++: error: unknown argument: '-static-openmp'
+```
+
+**How to fix?** Install NDK 21.3, CMake 3.10.2

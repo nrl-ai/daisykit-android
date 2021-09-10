@@ -5,3 +5,6 @@
 /app/src/main/jni/thirdparties/ncnn-*-android-*
 /app/src/main/jni/thirdparties/opencv-mobile-*
 /.vscode
+/local.properties
+/app/src/main/assets/*
+!/app/src/main/assets/.gitkeep

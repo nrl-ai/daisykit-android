@@ -4,6 +4,7 @@
     <string-array name="demo_app_array">
         <item>PushUp Counter</item>
         <item>Face Detector</item>
+        <item>Face Mask Detector</item>
         <item>Barcode Scanner</item>
     </string-array>
     <string-array name="cpugpu_array">
