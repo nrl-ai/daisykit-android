@@ -63,6 +63,7 @@ cv::Mat ReadCVMatFromAsset(AAssetManager* mgr, const std::string& file_path) {
   // Decode the file data to cv::Mat
   std::vector<char> vec2(data_buffer2, data_buffer2 + file_length);
   cv::Mat mat2 = cv::imdecode(vec2, CV_LOAD_IMAGE_COLOR);
+  cv::cvtColor(mat2, mat2, cv::COLOR_BGR2RGB);
 
   return mat2;
 }
