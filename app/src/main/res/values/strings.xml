@@ -3,8 +3,8 @@
     <string name="app_name">DaisyKit</string>
     <string-array name="demo_app_array">
         <item>PushUp Counter</item>
-        <item>Face Detector</item>
-        <item>Face Mask Detector</item>
+        <item>Face Detection</item>
+        <item>Face Mask Detection</item>
         <item>Human Matting</item>
         <item>Barcode Scanner</item>
     </string-array>
