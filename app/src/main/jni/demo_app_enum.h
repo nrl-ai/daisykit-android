@@ -4,5 +4,6 @@ enum DemoApp {
   kDemoPushUpCounter = 0,
   kDemoFaceDetector = 1,
   kDemoFaceDetectorWithMask = 2,
-  kDemoBarcodeReader = 3
+  kDemoHumanMatting = 3,
+  kDemoBarcodeReader = 4
 };

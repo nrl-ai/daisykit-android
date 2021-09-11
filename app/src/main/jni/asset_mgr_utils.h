@@ -2,15 +2,17 @@
 
 #include <stdio.h>
 #include <algorithm>
-#include <vector>
-#include <string>
 #include <fstream>
 #include <streambuf>
+#include <string>
+#include <vector>
 
+#include <opencv2/opencv.hpp>
 #include <android/asset_manager_jni.h>
+#include <android/asset_manager.h>
+#include <android/log.h>
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
-#include <android/log.h>
 #include <jni.h>
 
 class asset_streambuf : public std::streambuf {
@@ -40,3 +42,5 @@ class assetistream : public std::istream {
  private:
   static AAssetManager* manager;
 };
+
+cv::Mat ReadCVMatFromAsset(AAssetManager* mgr, const std::string& file_path);

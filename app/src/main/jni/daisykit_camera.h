@@ -21,6 +21,7 @@
 #include <daisykitsdk/flows/face_detector_flow.h>
 #include <daisykitsdk/flows/face_detector_with_mask_flow.h>
 #include <daisykitsdk/flows/pushup_counter_flow.h>
+#include <daisykitsdk/flows/human_matting_flow.h>
 #include <daisykitsdk/flows/barcode_scanner_flow.h>
 
 static std::string read_file_from_assets(AAssetManager* mgr, const std::string &file_name) {

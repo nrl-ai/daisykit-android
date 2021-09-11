@@ -5,6 +5,7 @@
         <item>PushUp Counter</item>
         <item>Face Detector</item>
         <item>Face Mask Detector</item>
+        <item>Human Matting</item>
         <item>Barcode Scanner</item>
     </string-array>
     <string-array name="cpugpu_array">

@@ -50,3 +50,19 @@ assetistream::~assetistream() { delete rdbuf(); }
 void assetistream::setAssetManager(AAssetManager* m) { manager = m; }
 
 AAssetManager* assetistream::manager;
+
+cv::Mat ReadCVMatFromAsset(AAssetManager* mgr, const std::string& file_path) {
+  AAsset* asset_file = AAssetManager_open(mgr, file_path.c_str(), AASSET_MODE_BUFFER);
+  size_t file_length = AAsset_getLength(asset_file);
+  char* data_buffer2 = (char*)malloc(file_length);
+  // Read file data
+  AAsset_read(asset_file, data_buffer2, file_length);
+  // The data has been copied to dataBuffer2, so , close it
+  AAsset_close(asset_file);
+
+  // Decode the file data to cv::Mat
+  std::vector<char> vec2(data_buffer2, data_buffer2 + file_length);
+  cv::Mat mat2 = cv::imdecode(vec2, CV_LOAD_IMAGE_COLOR);
+
+  return mat2;
+}
