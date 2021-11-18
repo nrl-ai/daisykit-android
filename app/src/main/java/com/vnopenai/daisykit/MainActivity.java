@@ -1,4 +1,4 @@
-package com.vnopenai.daisykit;
+package com.daisykitai.daisykit;
 
 import android.Manifest;
 import android.app.Activity;

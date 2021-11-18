@@ -2,14 +2,15 @@
 <resources>
     <string name="app_name">DaisyKit</string>
     <string-array name="demo_app_array">
-        <item>PushUp Counter</item>
         <item>Face Detection</item>
-        <item>Face Mask Detection</item>
-        <item>Human Matting</item>
+        <item>Background Matting</item>
         <item>Barcode Scanner</item>
+        <item>Human Pose MoveNet</item>
+        <item>Hand Pose</item>
+        <item>Object Detection</item>
     </string-array>
     <string-array name="cpugpu_array">
         <item>CPU</item>
-        <item>GPU</item>
+        <!-- <item>GPU</item> -->
     </string-array>
 </resources>

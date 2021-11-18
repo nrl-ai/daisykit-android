@@ -1,4 +1,4 @@
-package com.vnopenai.daisykit;
+package com.daisykitai.daisykit;
 
 import android.content.res.AssetManager;
 import android.view.Surface;

@@ -1,6 +1,6 @@
 # Daisykit - Android
 
-This is the Android demo app of [DaisyKit project](https://daisykit.org/). Visit [DaisyKit SDK](https://github.com/VNOpenAI/daisykit).
+This is the Android demo app of [DaisyKit project](https://daisykit.org/). Visit [DaisyKit SDK](https://github.com/Daisykit-AI/daisykit).
 ## I. Build and Run
 
 **Dependencies:** Android NDK 21.3, CMake 3.10.2.
@@ -8,13 +8,13 @@ This is the Android demo app of [DaisyKit project](https://daisykit.org/). Visit
 ### Step 1: Clone the source code
 
 ```
-git clone --recurse-submodules https://github.com/VNOpenAI/daisykit-android.git
+git clone --recurse-submodules https://github.com/Daisykit-AI/daisykit-android.git
 ```
 
 Or 
 
 ```
-git clone https://github.com/VNOpenAI/daisykit-android.git
+git clone https://github.com/Daisykit-AI/daisykit-android.git
 cd daisykit-android
 git submodule update --init
 ```
@@ -32,11 +32,7 @@ https://github.com/nihui/opencv-mobile
 - Download opencv-mobile-XYZ-android.zip
 - Extract opencv-mobile-XYZ-android.zip into **app/src/main/jni** and change the **OpenCV_DIR** path to yours in **app/src/main/jni/CMakeLists.txt**
 
-### Step 4: Download assets
-
-- Download all assets [here](https://drive.google.com/drive/folders/1ZAM8W4hHkV7-zmfHFjIGLAuso3QajUfW?usp=sharing) and put into `app/src/main/assets/` folder.
-
-### Step 5: Build
+### Step 4: Build
 
 - Open this project with Android Studio, build it and enjoy!
 
@@ -64,4 +60,15 @@ clang ++: error: unknown argument: '-static-openmp'
 
 ### 2. Crashing app
 
-Check if you have downloaded and extracted all assets. See into assets folder at `app/src/main/assets`. There should be 3 subfolders here: `models`, `configs`, and `images`.
+See into assets folder at `app/src/main/assets`. There should be 3 subfolders here: `models`, `configs`, and `images`. Initialize all git submodules.
+
+### 3. Android debug
+
+Use above snippet to print to logcat.
+
+```
+#include <android/log.h>
+
+#define  LOG_TAG    "testjni"
+#define  ALOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+```

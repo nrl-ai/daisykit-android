@@ -1,9 +1,10 @@
 #pragma once
 
 enum DemoApp {
-  kDemoPushUpCounter = 0,
-  kDemoFaceDetector = 1,
-  kDemoFaceDetectorWithMask = 2,
-  kDemoHumanMatting = 3,
-  kDemoBarcodeReader = 4
+  kDemoFaceDetector = 0,
+  kDemoBackgroundMatting = 1,
+  kDemoBarcodeScanner = 2,
+  kDemoHumanPoseMoveNet = 3,
+  kDemoHandPoseDetector = 4,
+  kDemoObjectDetector = 5
 };

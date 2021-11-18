@@ -1,12 +1,13 @@
 #include "daisykit_camera.h"
 
 ncnn::Mutex g_lock;
-static DemoApp current_demo = DemoApp::kDemoPushUpCounter;
-static daisykit::flows::PushupCounterFlow* pushup_flow;
-static daisykit::flows::FaceDetectorFlow* face_flow;
-static daisykit::flows::FaceDetectorWithMaskFlow* face_mask_flow;
-static daisykit::flows::HumanMattingFlow* human_matting_flow;
-static daisykit::flows::BarcodeScannerFlow* barcode_flow;
+static DemoApp current_demo = DemoApp::kDemoFaceDetector;
+static daisykit::flows::FaceDetectorFlow* face_detector_flow;
+static daisykit::flows::BackgroundMattingFlow* background_matting_flow;
+static daisykit::flows::BarcodeScannerFlow* barcode_scanner_flow;
+static daisykit::flows::HumanPoseMoveNetFlow* human_pose_movenet_flow;
+static daisykit::flows::HandPoseDetectorFlow* hand_pose_detector_flow;
+static daisykit::flows::ObjectDetectorFlow* object_detector_flow;
 
 class DaisykitCam : public NdkCameraWindow {
  public:
@@ -17,30 +18,41 @@ void DaisykitCam::on_image_render(cv::Mat& rgb) const {
   {
     ncnn::MutexLockGuard g(g_lock);
     switch (current_demo) {
-      case DemoApp::kDemoPushUpCounter:
-        if (!pushup_flow) return;
-        pushup_flow->Process(rgb);
-        pushup_flow->DrawResult(rgb);
+      case DemoApp::kDemoFaceDetector: {
+        if (!face_detector_flow) return;
+        auto face_detector_result = face_detector_flow->Process(rgb);
+        face_detector_flow->DrawResult(rgb, face_detector_result);
         break;
-      case DemoApp::kDemoFaceDetector:
-        if (!face_flow) return;
-            face_flow->Process(rgb);
-            face_flow->DrawResult(rgb);
-            break;
-      case DemoApp::kDemoFaceDetectorWithMask:
-        if (!face_mask_flow) return;
-            face_mask_flow->Process(rgb);
-            face_mask_flow->DrawResult(rgb);
-            break;
-      case DemoApp::kDemoHumanMatting:
-        if (!human_matting_flow) return;
-            human_matting_flow->Process(rgb);
-            human_matting_flow->DrawResult(rgb);
-            break;
-      case DemoApp::kDemoBarcodeReader:
-        if (!barcode_flow) return;
-        std::string result = barcode_flow->Process(rgb, true);
+      }
+      case DemoApp::kDemoBackgroundMatting: {
+        if (!background_matting_flow) return;
+        auto mask = background_matting_flow->Process(rgb);
+        background_matting_flow->DrawResult(rgb, mask);
         break;
+      }
+      case DemoApp::kDemoBarcodeScanner: {
+        if (!barcode_scanner_flow) return;
+        auto barcode_result = barcode_scanner_flow->Process(rgb, true);
+        break;
+      }
+      case DemoApp::kDemoHumanPoseMoveNet: {
+        if (!human_pose_movenet_flow) return;
+        auto human_poses = human_pose_movenet_flow->Process(rgb);
+        human_pose_movenet_flow->DrawResult(rgb, human_poses);
+        break;
+      }
+      case DemoApp::kDemoHandPoseDetector: {
+        if (!hand_pose_detector_flow) return;
+        auto hand_poses = hand_pose_detector_flow->Process(rgb);
+        hand_pose_detector_flow->DrawResult(rgb, hand_poses);
+        break;
+      }
+      case DemoApp::kDemoObjectDetector: {
+        if (!object_detector_flow) return;
+        auto objects = object_detector_flow->Process(rgb);
+        object_detector_flow->DrawResult(rgb, objects);
+        break;
+      }
     }
   }
 }
@@ -62,16 +74,18 @@ JNIEXPORT void JNI_OnUnload(JavaVM* vm, void* reserved) {
 
   {
     ncnn::MutexLockGuard g(g_lock);
-    delete pushup_flow;
-    pushup_flow = nullptr;
-    delete face_flow;
-    face_flow = nullptr;
-    delete face_mask_flow;
-    face_mask_flow = nullptr;
-    delete barcode_flow;
-    human_matting_flow = nullptr;
-    delete human_matting_flow;
-    barcode_flow = nullptr;
+    delete face_detector_flow;
+    face_detector_flow = nullptr;
+    delete background_matting_flow;
+    background_matting_flow = nullptr;
+    delete barcode_scanner_flow;
+    barcode_scanner_flow = nullptr;
+    delete human_pose_movenet_flow;
+    human_pose_movenet_flow = nullptr;
+    delete hand_pose_detector_flow;
+    hand_pose_detector_flow = nullptr;
+    delete object_detector_flow;
+    object_detector_flow = nullptr;
   }
 
   delete g_camera;
@@ -79,7 +93,7 @@ JNIEXPORT void JNI_OnUnload(JavaVM* vm, void* reserved) {
 }
 
 // public native boolean loadModel(AssetManager mgr, int demoid, int cpugpu);
-JNIEXPORT jboolean JNICALL Java_com_vnopenai_daisykit_DaisykitCamera_loadDemo(
+JNIEXPORT jboolean JNICALL Java_com_daisykitai_daisykit_DaisykitCamera_loadDemo(
     JNIEnv* env, jobject thiz, jobject assetManager, jint demoid, jint cpugpu) {
   AAssetManager* mgr = AAssetManager_fromJava(env, assetManager);
 
@@ -88,33 +102,48 @@ JNIEXPORT jboolean JNICALL Java_com_vnopenai_daisykit_DaisykitCamera_loadDemo(
     current_demo = static_cast<DemoApp>(demoid);
     std::string config;
     switch (current_demo) {
-      case DemoApp::kDemoPushUpCounter:
-        config =
-                read_file_from_assets(mgr, "configs/pushup_counter_config.json");
-            pushup_flow = new daisykit::flows::PushupCounterFlow(mgr, config);
-            break;
-      case DemoApp::kDemoFaceDetector:
+      case DemoApp::kDemoFaceDetector: {
         config =
             read_file_from_assets(mgr, "configs/face_detector_config.json");
-        face_flow = new daisykit::flows::FaceDetectorFlow(mgr, config);
-        break;
-      case DemoApp::kDemoFaceDetectorWithMask:
-        config =
-            read_file_from_assets(mgr, "configs/face_detector_with_mask_config.json");
-        face_mask_flow = new daisykit::flows::FaceDetectorWithMaskFlow(mgr, config);
-        break;
-      case DemoApp::kDemoHumanMatting: {
-        config =
-            read_file_from_assets(mgr, "configs/human_matting_config.json");
-        cv::Mat background = ReadCVMatFromAsset(mgr, "images/background.jpg");
-        human_matting_flow = new daisykit::flows::HumanMattingFlow(mgr, config, background);
+        face_detector_flow = new daisykit::flows::FaceDetectorFlow(mgr, config);
         break;
       }
-      case DemoApp::kDemoBarcodeReader:
+      case DemoApp::kDemoBackgroundMatting: {
+        cv::Mat background = ReadCVMatFromAsset(mgr, "images/background.jpg");
+        config = read_file_from_assets(
+            mgr, "configs/background_matting_config.json");
+        background_matting_flow =
+            new daisykit::flows::BackgroundMattingFlow(mgr, config, background);
+        break;
+      }
+      case DemoApp::kDemoBarcodeScanner: {
         config =
             read_file_from_assets(mgr, "configs/barcode_scanner_config.json");
-        barcode_flow = new daisykit::flows::BarcodeScannerFlow(mgr, config);
+        barcode_scanner_flow =
+            new daisykit::flows::BarcodeScannerFlow(config);
         break;
+      }
+      case DemoApp::kDemoHumanPoseMoveNet: {
+        config = read_file_from_assets(
+            mgr, "configs/human_pose_movenet_config.json");
+        human_pose_movenet_flow =
+            new daisykit::flows::HumanPoseMoveNetFlow(mgr, config);
+        break;
+      }
+      case DemoApp::kDemoHandPoseDetector: {
+        config = read_file_from_assets(
+            mgr, "configs/hand_pose_yolox_mp_config.json");
+        hand_pose_detector_flow =
+            new daisykit::flows::HandPoseDetectorFlow(mgr, config);
+        break;
+      }
+      case DemoApp::kDemoObjectDetector: {
+        config = read_file_from_assets(
+            mgr, "configs/object_detector_yolox_config.json");
+        object_detector_flow =
+            new daisykit::flows::ObjectDetectorFlow(mgr, config);
+        break;
+      }
     }
   }
 
@@ -122,8 +151,10 @@ JNIEXPORT jboolean JNICALL Java_com_vnopenai_daisykit_DaisykitCamera_loadDemo(
 }
 
 // public native boolean openCamera(int facing);
-JNIEXPORT jboolean JNICALL Java_com_vnopenai_daisykit_DaisykitCamera_openCamera(
-    JNIEnv* env, jobject thiz, jint facing) {
+JNIEXPORT jboolean JNICALL
+Java_com_daisykitai_daisykit_DaisykitCamera_openCamera(JNIEnv* env,
+                                                       jobject thiz,
+                                                       jint facing) {
   if (facing < 0 || facing > 1) return JNI_FALSE;
 
   __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "openCamera %d", facing);
@@ -135,8 +166,8 @@ JNIEXPORT jboolean JNICALL Java_com_vnopenai_daisykit_DaisykitCamera_openCamera(
 
 // public native boolean closeCamera();
 JNIEXPORT jboolean JNICALL
-Java_com_vnopenai_daisykit_DaisykitCamera_closeCamera(JNIEnv* env,
-                                                      jobject thiz) {
+Java_com_daisykitai_daisykit_DaisykitCamera_closeCamera(JNIEnv* env,
+                                                        jobject thiz) {
   __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "closeCamera");
 
   g_camera->close();
@@ -146,9 +177,9 @@ Java_com_vnopenai_daisykit_DaisykitCamera_closeCamera(JNIEnv* env,
 
 // public native boolean setOutputWindow(Surface surface);
 JNIEXPORT jboolean JNICALL
-Java_com_vnopenai_daisykit_DaisykitCamera_setOutputWindow(JNIEnv* env,
-                                                          jobject thiz,
-                                                          jobject surface) {
+Java_com_daisykitai_daisykit_DaisykitCamera_setOutputWindow(JNIEnv* env,
+                                                            jobject thiz,
+                                                            jobject surface) {
   ANativeWindow* win = ANativeWindow_fromSurface(env, surface);
 
   __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "setOutputWindow %p", win);

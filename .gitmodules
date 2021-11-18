@@ -1,3 +1,6 @@
 [submodule "app/src/main/jni/daisykitsdk"]
 	path = app/src/main/jni/daisykitsdk
-	url = https://github.com/VNOpenAI/daisykit
+	url = https://github.com/Daisykit-AI/daisykit
+[submodule "app/src/main/assets"]
+	path = app/src/main/assets
+	url = https://github.com/Daisykit-AI/daisykit-assets.git
