@@ -1,6 +1,6 @@
 [submodule "app/src/main/jni/daisykitsdk"]
 	path = app/src/main/jni/daisykitsdk
-	url = https://github.com/Daisykit-AI/daisykit
+	url = git@github.com:Daisykit-AI/daisykit.git
 [submodule "app/src/main/assets"]
 	path = app/src/main/assets
 	url = git@github.com:Daisykit-AI/daisykit-assets.git
