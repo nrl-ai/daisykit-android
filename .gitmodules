@@ -3,4 +3,4 @@
 	url = https://github.com/Daisykit-AI/daisykit
 [submodule "app/src/main/assets"]
 	path = app/src/main/assets
-	url = https://github.com/Daisykit-AI/daisykit-assets.git
+	url = git@github.com:Daisykit-AI/daisykit-assets.git
