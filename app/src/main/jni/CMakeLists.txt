@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fexceptions -frtti")
 
-set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/third_party/opencv-mobile-4.5.3-android/sdk/native/jni)
+set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/third_party/opencv-mobile-4.5.4-android/sdk/native/jni)
 find_package(OpenCV REQUIRED core imgproc)
 
 include_directories(.
