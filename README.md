@@ -1,6 +1,6 @@
 # Daisykit - Android
 
-This is the Android demo app of [DaisyKit project](https://daisykit.org/). Visit [DaisyKit SDK](https://github.com/Daisykit-AI/daisykit).
+This is the Android demo app of [DaisyKit project](https://daisykit.org/). Visit [DaisyKit SDK](https://github.com/open-daisylab/daisykit).
 ## I. Build and Run
 
 **Dependencies:** Android NDK 21.3, CMake 3.10.2.
@@ -8,7 +8,7 @@ This is the Android demo app of [DaisyKit project](https://daisykit.org/). Visit
 ### Step 1: Clone the source code
 
 ```
-git clone --recurse-submodules https://github.com/Daisykit-AI/daisykit-android.git
+git clone --recurse-submodules https://github.com/open-daisylab/daisykit-android.git
 ```
 
 Or 
