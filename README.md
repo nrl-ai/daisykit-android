@@ -14,7 +14,7 @@ git clone --recurse-submodules https://github.com/open-daisylab/daisykit-android
 Or 
 
 ```
-git clone https://github.com/Daisykit-AI/daisykit-android.git
+git clone https://github.com/open-daisylab/daisykit-android.git
 cd daisykit-android
 git submodule update --init
 ```
